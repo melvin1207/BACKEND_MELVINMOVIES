@@ -6,7 +6,7 @@ const { createMovie, getMovies, getMovie, updateMovie, updaterateMovie, softDele
 router.post('/', createMovie)
 router.get('/', getMovies)
 router.get('/:id', getMovie)
-router.patch( '/:id', updateMovie)
+router.patch( '/update/:id', updateMovie)
 router.patch('/rate/:id', updaterateMovie)
 router.patch('/delete/:id', softDeleteMovie)
 router.delete('/:id', destroyMovie)

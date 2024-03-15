@@ -1,4 +1,4 @@
-const asynHandñer = require('express-async-handler')
+const asyncHandler = require('express-async-handler')
 const User = require('../models/usersModel')
 
 //Crear un usuario

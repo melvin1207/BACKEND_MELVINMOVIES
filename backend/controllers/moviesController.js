@@ -62,7 +62,8 @@ const getMovies = asyncHandler(async(req,res) => {
 
 //Obtener una sola pelicula por su ID
 const getMovie = asyncHandler(async(req, res) =>{
-  res.status(200).json({ message: 'get movie' })
+  const movie = await Movie.findById(req.params.id)
+  res.status(200).json(movie)
 })
 
 //Actualizar una pelicula

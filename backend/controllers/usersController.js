@@ -53,7 +53,25 @@ const createUser = asyncHandler(async(req, res) => {
 
 //Logear al usuario
 const loginUser = asyncHandler(async(req,res) => {
-  res.status(200).json({ message: 'Login user' })
+  //se destructura la petición
+  const { email, password } = req.body
+
+  //se verifica qu exista un usuario con el email ingrsado
+  const user = await User.findOne({ email })
+
+  //si el usuario existe se verifica el password
+  if(user && (await bcrypt.compare(password, user.password))){
+    res.status(200).json({
+      _id: user.id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      token: generarToken(user.id)
+    })
+  } else{
+    res.status(400)
+    throw new Error('Acceso no autorizado')
+  }
 })
 
 //Obtener datos del usuario
@@ -75,6 +93,13 @@ const softDeleteUser = asyncHandler(async(req, res) =>{
 const destroyUser = asyncHandler(async(req, res) =>{
   res.status(200).json({ message: 'destroy user' })
 })
+
+//funcion para generar el token
+const generarToken = (id_user) => {
+  return jwt.sign({ id_user }, process.env.JWT_SECRET, {
+      expiresIn: '2h'
+  })
+}
 
 module.exports = {
   createUser,

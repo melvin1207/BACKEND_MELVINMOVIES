@@ -24,7 +24,7 @@ const movieSchema = mongoose.Schema({
   popularity:{
     type: Number,
     required: [true, 'Por favor ingrese el numero de popularidad de la pelicula']
-  }
+  },
   poster_path:{
     type: String,
     required: [true, 'Por favor ingrese el link de la imagen de la pelicula']
@@ -36,7 +36,7 @@ const movieSchema = mongoose.Schema({
   title:{
     type: String,
     required: [true, 'Por favor ingresa el titulo de la pelicula1'],
-  }
+  },
   vote_average:{
     type: Number,
     required: [true, 'Indica el promedio de las puntuaciones de la pelicula']

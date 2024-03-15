@@ -68,7 +68,15 @@ const getMovie = asyncHandler(async(req, res) =>{
 
 //Actualizar una pelicula
 const updateMovie = asyncHandler(async(req, res) =>{
-  res.status(200).json({ message: 'update movie' })
+  const movie = await Movie.findById(req.params.id)
+
+  if(!movie){
+    res.status(400)
+    throw new Error("La película no existe")
+  } else{
+    const movieUpdated = await Movie.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    res.status(200).json(movieUpdated)
+  }
 })
 
 //Actualizar puntuacion de pelicula

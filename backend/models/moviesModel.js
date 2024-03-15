@@ -29,8 +29,8 @@ const movieSchema = mongoose.Schema({
     type: String,
     required: [true, 'Por favor ingrese el link de la imagen de la pelicula']
   },
-  release_date:{
-    type: String,
+  release_year:{
+    type: Number,
     required: [true, 'por favor ingresa la fecha de estreno de la pelicula']
   },
   title:{

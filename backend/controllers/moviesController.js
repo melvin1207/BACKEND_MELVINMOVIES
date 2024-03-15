@@ -3,7 +3,56 @@ const Movie = require('../models/moviesModel')
 
 //Crear una pelicula
 const createMovie = asyncHandler(async(req, res) => {
-  res.status(200).json({ message: 'Create movie' })
+  //Se destructura el body de la petición
+  const { adult, backdrop_path, original_language, original_title, overview, popularity, poster_path, release_year, title } = req.body
+
+  //Se verifica que la petición tenga todos los datos necesarios
+  if(!adult || !backdrop_path || !original_language || !original_title || !overview || !popularity || !poster_path || !release_year || !title){
+    res.status(400)
+    throw new Error('Faltan datos')
+  }
+  
+  //Se verifica que el titulo ingresado sea unico
+  const movieExist = await Movie.findOne({ title })
+  if (movieExist){
+    res.status(400)
+    throw new Error('La pelicula ya existe')
+  }
+  
+  //Objeto para crear la pelicula
+  const movie = await Movie.create({
+    adult, 
+    backdrop_path, 
+    original_language, 
+    original_title, 
+    overview, 
+    popularity, 
+    poster_path, 
+    release_year, 
+    title, 
+    vote_average: 0, 
+    vote_count: 0
+  }) 
+  
+  if(movie){
+    res.status(201).json({
+    _id: movie._id,
+    adult: movie.adult, 
+    backdrop_path: movie.backdrop_path, 
+    original_language: movie.original_language, 
+    original_title: movie.original_title, 
+    overview: movie.overview, 
+    popularity: movie.popularity, 
+    poster_path: movie.poster_path, 
+    release_year: movie.release_year, 
+    title: movie.title, 
+    vote_average: movie.vote_average, 
+    vote_count: movie.vote_count
+    })
+  } else{
+    res.status(400)
+    throw new Error('No se pudieron guardar los datos')
+  }
 })
 
 //Obtener  todas las peliculas

@@ -95,8 +95,14 @@ const updaterateMovie = asyncHandler(async(req, res) =>{
 
 //SoftDelete de una pelicula
 const softDeleteMovie = asyncHandler(async(req, res) =>{
-  const movieDesactivated = await Movie.findByIdAndUpdate(req.params.id, { active: true }, { new: true })
+  const movieDesactivated = await Movie.findByIdAndUpdate(req.params.id, { active: false }, { new: true })
   res.status(200).json(movieDesactivated)
+})
+
+//Activar una pelicula
+const activateMovie = asyncHandler(async(req, res) =>{
+  const movieActivated = await Movie.findByIdAndUpdate(req.params.id, { active: true }, { new: true })
+  res.status(200).json(movieActivated)
 })
 
 //Borrar definitivamente una pelicula
@@ -119,5 +125,6 @@ module.exports = {
   updateMovie,
   updaterateMovie,
   softDeleteMovie,
+  activateMovie,
   destroyMovie
 }

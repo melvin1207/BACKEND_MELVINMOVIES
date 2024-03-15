@@ -91,6 +91,12 @@ const softDeleteUser = asyncHandler(async(req, res) =>{
   res.status(200).json(userDesactivated)
 })
 
+//Reactivar un usuario
+const activateUser = asyncHandler(async(req, res) =>{
+  const userActivated = await User.findByIdAndUpdate(req.params.id, { active: true }, { new: true }).select('-password')
+  res.status(200).json(userActivated)
+})
+
 //Borrar definitivamente un usuario
 const destroyUser = asyncHandler(async(req, res) =>{
   const user = await User.findById(req.params.id)
@@ -117,5 +123,6 @@ module.exports = {
   datosUser,
   updateUser,
   softDeleteUser,
+  activateUser,
   destroyUser
 }

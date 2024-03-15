@@ -76,7 +76,7 @@ const loginUser = asyncHandler(async(req,res) => {
 
 //Obtener datos del usuario
 const datosUser = asyncHandler(async(req, res) =>{
-  res.status(200).json({ message: 'get user' })
+  res.status(200).json(req.user)
 })
 
 //Actualizar un usuario

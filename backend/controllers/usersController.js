@@ -87,7 +87,7 @@ const updateUser = asyncHandler(async(req, res) =>{
 
 //SoftDelete de un usuario
 const softDeleteUser = asyncHandler(async(req, res) =>{
-  const userDesactivated = await User.findByIdAndUpdate(req.params.id, { active: true }, { new: true }).select('-password')
+  const userDesactivated = await User.findByIdAndUpdate(req.params.id, { active: false }, { new: true }).select('-password')
   res.status(200).json(userDesactivated)
 })
 

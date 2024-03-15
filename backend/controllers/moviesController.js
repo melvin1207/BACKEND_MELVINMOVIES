@@ -57,7 +57,8 @@ const createMovie = asyncHandler(async(req, res) => {
 
 //Obtener  todas las peliculas
 const getMovies = asyncHandler(async(req,res) => {
-  res.status(200).json({ message: 'Get Movies' })
+  const movies = await Movie.find({})
+  res.status(200).json(movies)
 })
 
 //Obtener una sola pelicula por su ID
@@ -81,17 +82,34 @@ const updateMovie = asyncHandler(async(req, res) =>{
 
 //Actualizar puntuacion de pelicula
 const updaterateMovie = asyncHandler(async(req, res) =>{
-  res.status(200).json({ message: 'update rate of a movie' })
+  const movie = await Movie.findById(req.params.id)
+
+  if(!movie){
+    res.status(400)
+    throw new Error("La película no existe")
+  } else{
+    const movieUpdated = await Movie.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    res.status(200).json(movieUpdated)
+  }
 })
 
 //SoftDelete de una pelicula
 const softDeleteMovie = asyncHandler(async(req, res) =>{
-  res.status(200).json({ message: 'soft delete movie' })
+  const movieDesactivated = await Movie.findByIdAndUpdate(req.params.id, { active: true }, { new: true })
+  res.status(200).json(movieDesactivated)
 })
 
 //Borrar definitivamente una pelicula
 const destroyMovie = asyncHandler(async(req, res) =>{
-  res.status(200).json({ message: 'destroy movie' })
+  const movie = await Movie.findById(req.params.id)
+
+  if(!movie){
+    res.status(400)
+    throw new Error('La pelicula no existe')
+  } else{
+    await Movie.deleteOne(movie)
+    res.status(200).json({ id: req.params.id })
+  }
 })
 
 module.exports = {

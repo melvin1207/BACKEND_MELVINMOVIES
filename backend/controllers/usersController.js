@@ -87,7 +87,8 @@ const updateUser = asyncHandler(async(req, res) =>{
 
 //SoftDelete de un usuario
 const softDeleteUser = asyncHandler(async(req, res) =>{
-  res.status(200).json({ message: 'soft delete user' })
+  const userDesactivated = await User.findByIdAndUpdate(req.params.id, { active: true }, { new: true }).select('-password')
+  res.status(200).json(userDesactivated)
 })
 
 //Borrar definitivamente un usuario

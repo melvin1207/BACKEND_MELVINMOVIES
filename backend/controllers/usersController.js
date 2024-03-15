@@ -81,7 +81,8 @@ const datosUser = asyncHandler(async(req, res) =>{
 
 //Actualizar un usuario
 const updateUser = asyncHandler(async(req, res) =>{
-  res.status(200).json({ message: 'update user' })
+  const userUpdated = await User.findByIdAndUpdate(req.params.id, req.body, { new: true }).select('-password')
+  res.status(200).json(userUpdated)
 })
 
 //SoftDelete de un usuario

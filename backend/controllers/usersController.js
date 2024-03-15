@@ -1,8 +1,8 @@
-const asyncHandler = require('express-async-handler')
-const User = require('../models/usersModel')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const { use } = require('../routes/usersRoutes')
+const asyncHandler = require('express-async-handler')
+const User = require('../models/usersModel')
+
 
 //Crear un usuario
 const createUser = asyncHandler(async(req, res) => {
@@ -93,7 +93,15 @@ const softDeleteUser = asyncHandler(async(req, res) =>{
 
 //Borrar definitivamente un usuario
 const destroyUser = asyncHandler(async(req, res) =>{
-  res.status(200).json({ message: 'destroy user' })
+  const user = await User.findById(req.params.id)
+
+  if(!user){
+    res.status(400)
+    throw new Error('El usuario no existe')
+  } else{
+    await User.deleteOne(user)
+    res.status(200).json({ id: req.params.id })
+  }
 })
 
 //funcion para generar el token

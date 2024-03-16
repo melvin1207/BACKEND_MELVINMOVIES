@@ -90,8 +90,8 @@ const updaterateMovieLike = asyncHandler(async(req, res) =>{
 
   const likeUpdate = {
     likes: 1 + parseFloat(movie.likes),
-    vote_count: parseFloat(req.body.likes) + parseFloat(movie.vote_count),
-    vote_average: (parseFloat(movie.likes) / parseFloat(movie.vote_count)) * 100
+    vote_count: 1 + parseFloat(movie.vote_count),
+    vote_average: (parseFloat(movie.likes) / parseFloat(movie.vote_count)) * 100 
   }
 
   if(!movie){
@@ -109,7 +109,7 @@ const updaterateMovieDislike = asyncHandler(async(req, res) =>{
 
   const dislikeUpdate = {
     dislikes: 1 + parseFloat(movie.dislikes),
-    vote_count: parseFloat(req.body.dislikes) + parseFloat(movie.vote_count),
+    vote_count: 1 + parseFloat(movie.vote_count),
     vote_average: (parseFloat(movie.likes) / parseFloat(movie.vote_count)) * 100
   }
 

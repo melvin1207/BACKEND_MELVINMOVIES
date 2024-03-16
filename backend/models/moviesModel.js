@@ -45,6 +45,14 @@ const movieSchema = mongoose.Schema({
     type: Number,
     required: [true, 'Indica la puntuación para la pelicula del 1 al 10']
   },
+  likes:{
+    type: Number,
+    required: [true, 'Indica si te gusto la pelicula']
+  },
+  dislikes:{
+    type: Number,
+    required: [true, 'Indica si te no gusto la pelicula']
+  },
   active:{
     type: Boolean,
     default: true

@@ -31,7 +31,9 @@ const createMovie = asyncHandler(async(req, res) => {
     release_year, 
     title, 
     vote_average: 0, 
-    vote_count: 0
+    vote_count: 0,
+    likes: 0,
+    dislikes: 0
   }) 
   
   if(movie){
@@ -47,7 +49,9 @@ const createMovie = asyncHandler(async(req, res) => {
     release_year: movie.release_year, 
     title: movie.title, 
     vote_average: movie.vote_average, 
-    vote_count: movie.vote_count
+    vote_count: movie.vote_count,
+    likes: movie.likes,
+    dislikes: movie.dislikes
     })
   } else{
     res.status(400)
@@ -81,14 +85,39 @@ const updateMovie = asyncHandler(async(req, res) =>{
 })
 
 //Actualizar puntuacion de pelicula
-const updaterateMovie = asyncHandler(async(req, res) =>{
+const updaterateMovieLike = asyncHandler(async(req, res) =>{  
   const movie = await Movie.findById(req.params.id)
+
+  const likeUpdate = {
+    likes: parseFloat(req.body.likes) + parseFloat(movie.likes),
+    vote_count: parseFloat(req.body.likes) + parseFloat(movie.vote_count),
+    vote_average: (parseFloat(movie.likes) / parseFloat(movie.vote_count)) * 100
+  }
 
   if(!movie){
     res.status(400)
     throw new Error("La película no existe")
   } else{
-    const movieUpdated = await Movie.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    const movieUpdated = await Movie.findByIdAndUpdate(req.params.id, likeUpdate, { new: true })
+    res.status(200).json(movieUpdated)
+  }
+})
+
+//Actualizar puntuacion de pelicula
+const updaterateMovieDislike = asyncHandler(async(req, res) =>{
+  const movie = await Movie.findById(req.params.id)
+
+  const dislikeUpdate = {
+    dislikes: parseFloat(req.body.dislikes) + parseFloat(movie.dislikes),
+    vote_count: parseFloat(req.body.dislikes) + parseFloat(movie.vote_count),
+    vote_average: (parseFloat(movie.likes) / parseFloat(movie.vote_count)) * 100
+  }
+
+  if(!movie){
+    res.status(400)
+    throw new Error("La película no existe")
+  } else{
+    const movieUpdated = await Movie.findByIdAndUpdate(req.params.id, dislikeUpdate, { new: true })
     res.status(200).json(movieUpdated)
   }
 })
@@ -123,7 +152,8 @@ module.exports = {
   getMovies,
   getMovie,
   updateMovie,
-  updaterateMovie,
+  updaterateMovieLike,
+  updaterateMovieDislike,
   softDeleteMovie,
   activateMovie,
   destroyMovie

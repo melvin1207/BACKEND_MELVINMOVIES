@@ -91,14 +91,19 @@ const updaterateMovieLike = asyncHandler(async(req, res) =>{
   const likeUpdate = {
     likes: 1 + parseFloat(movie.likes),
     vote_count: 1 + parseFloat(movie.vote_count),
-    vote_average: (parseFloat(movie.likes) / parseFloat(movie.vote_count)) * 100
+  }
+
+  const averageUpdate = {
+    likes: parseFloat(likeUpdate.likes),
+    vote_count: parseFloat(likeUpdate.vote_count),
+    vote_average: (parseFloat(likeUpdate.likes) / parseFloat(likeUpdate.vote_count)) * 100
   }
 
   if(!movie){
     res.status(400)
     throw new Error("La película no existe")
   } else{
-    const movieUpdated = await Movie.findByIdAndUpdate(req.params.id, likeUpdate, { new: true })
+    const movieUpdated = await Movie.findByIdAndUpdate(req.params.id, averageUpdate, { new: true })
     res.status(200).json(movieUpdated)
   }
 })
@@ -110,14 +115,19 @@ const updaterateMovieDislike = asyncHandler(async(req, res) =>{
   const dislikeUpdate = {
     dislikes: 1 + parseFloat(movie.dislikes),
     vote_count: 1 + parseFloat(movie.vote_count),
-    vote_average: (parseFloat(movie.likes) / parseFloat(movie.vote_count)) * 100
+  }
+
+  const averageUpdate = {
+    dislikes: parseFloat(dislikeUpdate.dislikes),
+    vote_count: parseFloat(dislikeUpdate.vote_count),
+    vote_average: (parseFloat(movie.likes) / parseFloat(dislikeUpdate.vote_count)) * 100
   }
 
   if(!movie){
     res.status(400)
     throw new Error("La película no existe")
   } else{
-    const movieUpdated = await Movie.findByIdAndUpdate(req.params.id, dislikeUpdate, { new: true })
+    const movieUpdated = await Movie.findByIdAndUpdate(req.params.id, averageUpdate, { new: true })
     res.status(200).json(movieUpdated)
   }
 })

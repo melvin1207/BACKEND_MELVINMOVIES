@@ -39,19 +39,23 @@ const movieSchema = mongoose.Schema({
   },
   vote_average:{
     type: Number,
-    required: [true, 'Indica el promedio de las puntuaciones de la pelicula']
+    required: [true, 'Indica el promedio de las puntuaciones de la pelicula'],
+    default: 0
   },
   vote_count:{
     type: Number,
-    required: [true, 'Indica la puntuación para la pelicula del 1 al 10']
+    required: [true, 'Indica la puntuación para la pelicula del 1 al 10'],
+    default: 0
   },
   likes:{
     type: Number,
-    required: [true, 'Indica si te gusto la pelicula']
+    required: [true, 'Indica si te gusto la pelicula'],
+    default: 0
   },
   dislikes:{
     type: Number,
-    required: [true, 'Indica si te no gusto la pelicula']
+    required: [true, 'Indica si te no gusto la pelicula'],
+    default: 0
   },
   active:{
     type: Boolean,
